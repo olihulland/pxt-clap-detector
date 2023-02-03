@@ -1,0 +1,78 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="SmartSpeaker_onEventWithHandlerArgs" id="c(%gl5t=MW`y4T-oQ.Rv" x="0" y="0">
+        <value name="HANDLER_DRAG_PARAM_claps">
+            <shadow type="argument_reporter_number" id="?}L,UG9slyN:z5OCMXW)">
+                <field name="VALUE">claps</field>
+            </shadow>
+        </value>
+        <statement name="HANDLER">
+            <block type="SmartSpeaker_setTimer" id="l9I[Z=wPYryOlo6UyO|t">
+                <value name="time">
+                    <shadow type="timePicker"></shadow>
+                    <block type="math_arithmetic" id="?1hgydvHiH=nvIR28wtL">
+                        <field name="OP">MULTIPLY</field>
+                        <value name="A">
+                            <shadow type="math_number" id="Z$R_x3T8tRz]MO[.MWSf">
+                                <field name="NUM">1000</field>
+                            </shadow>
+                        </value>
+                        <value name="B">
+                            <shadow type="math_number">
+                                <field name="NUM">0</field>
+                            </shadow>
+                            <block type="argument_reporter_number" id="Q*BuYTR:/UNr`z(sJ-rB">
+                                <field name="VALUE">claps</field>
+                            </block>
+                        </value>
+                    </block>
+                </value>
+                <next>
+                    <block type="device_start_melody" id="s{jCK{249YDfM4@qItvG">
+                        <field name="options">MelodyOptions.Once</field>
+                        <value name="melody">
+                            <shadow type="device_builtin_melody" id="SQ3]mbT0|;{%=Nsa],HJ">
+                                <field name="melody">Melodies.JumpUp</field>
+                            </shadow>
+                        </value>
+                        <next>
+                            <block type="basic_show_icon" id="eW!1IhJZ/%3a=/.=V?#-">
+                                <field name="i">IconNames.Square</field>
+                            </block>
+                        </next>
+                    </block>
+                </next>
+            </block>
+        </statement>
+    </block>
+    <block type="SmartSpeaker_onEventAsStatement" id="C4Xh$fK54:^~]-~hV)/q" x="-1" y="256">
+        <statement name="HANDLER">
+            <block type="basic_show_icon" id="oz:vd:8ee[dz^=FvieS]">
+                <field name="i">IconNames.SmallSquare</field>
+                <next>
+                    <block type="device_start_melody" id="B?.m,i2h;?7*PbG??PRL">
+                        <field name="options">MelodyOptions.Once</field>
+                        <value name="melody">
+                            <shadow type="device_builtin_melody" id="T7NA%YK]eQ8~,JW{KhqQ">
+                                <field name="melody">Melodies.JumpDown</field>
+                            </shadow>
+                        </value>
+                    </block>
+                </next>
+            </block>
+        </statement>
+    </block>
+    <block type="SmartSpeaker_onTripleClap" id="i)|iigo)qZ.J91?VP}J6" x="7" y="471">
+        <value name="HANDLER_DRAG_PARAM_claps">
+            <shadow type="argument_reporter_number" id="WLU3p?Y+mh?wh$p[C!Z_">
+                <field name="VALUE">claps</field>
+            </shadow>
+        </value>
+        <statement name="HANDLER">
+            <block type="SmartSpeaker_cancelTimer" id="@]@Qe#4|xjlN)_oLMe}A">
+                <next>
+                    <block type="device_clear_display" id="9Hc[w_Y6(*8?]?+IHR3{"></block>
+                </next>
+            </block>
+        </statement>
+    </block>
+</xml>

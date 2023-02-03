@@ -1,0 +1,20 @@
+{
+  "name": "pxt-clap-detector",
+  "description": "An extension for detecting claps",
+  "version": "0.0.1",
+  "dependencies": {
+    "core": "*"
+  },
+  "files": [
+    "main.ts",
+    "README.md"
+  ],
+  "targetVersions": {
+    "target": "5.0.12",
+    "targetId": "microbit"
+  },
+  "supportedTargets": [
+    "microbit"
+  ],
+  "preferredEditor": "tsprj"
+}
