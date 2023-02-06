@@ -51,17 +51,9 @@ namespace claps {
             }
         }
 
-        setSingleClapHandler(handler: ()=>void) {
+        setXClapHandler(x: number, handler: ()=>void) {
             let isValid = (clapTimes: number[]) => {
-                return clapTimes.length === 1;
-            }
-            this.handlers.push(new ClapHandler(isValid, handler));
-            this.updateOnLoudHandler();
-        }
-
-        setDoubleClapHandler(handler: ()=>void) {
-            let isValid = (clapTimes: number[]) => {
-                return clapTimes.length === 2;
+                return clapTimes.length === x;
             }
             this.handlers.push(new ClapHandler(isValid, handler));
             this.updateOnLoudHandler();
@@ -85,13 +77,19 @@ namespace claps {
     //% block="on clap"
     export function onClap(handler: ()=>void) {
         let clapDetector = ClapDetector.getClapDetector();
-        clapDetector.setSingleClapHandler(handler);
+        clapDetector.setXClapHandler(1, handler);
     }
 
     //% block="on double clap"
     export function onDoubleClap(handler: ()=>void) {
         let clapDetector = ClapDetector.getClapDetector();
-        clapDetector.setDoubleClapHandler(handler);
+        clapDetector.setXClapHandler(2, handler);
+    }
+
+    //% block="on $x claps"
+    export function onXClap(x: number, handler: ()=>void) {
+        let clapDetector = ClapDetector.getClapDetector();
+        clapDetector.setXClapHandler(x, handler);
     }
 
 }
