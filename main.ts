@@ -72,9 +72,10 @@ namespace claps {
                 // if not woken yet and timout has passed then handle
                 if (this.status === Status.AWAITING_WAKE && control.millis() - this.lastClapTime >= NO_CLAP_TIMEOUT) {
                     this.status = Status.CAPTURING_POST_WAKE;   // important to ensure following claps start being counted right away
+                    let toRun = [];
                     for (let handler of this.handlers) {
                         if (handler.isValid(this.clapTimes)) {  // if handler matches then execute
-                            handler.fn();
+                            toRun.push(handler);
                         }
                     }
 
@@ -82,12 +83,18 @@ namespace claps {
                     for (let cHandler of this.captureHandlers) {
                         if (cHandler.isValid(this.clapTimes)) {
                             anyValidCHandlers = true;
-                            this.onWakeDetected();
+                            if (this.onWakeDetected) {
+                                this.onWakeDetected();
+                            }
                         }
                     }
                     this.status = anyValidCHandlers ? Status.CAPTURING_POST_WAKE : Status.CAPTURING_COMPLETE;
                     if (anyValidCHandlers) {
                         this.wokenAt = control.millis();
+                    }
+
+                    for (let handler of toRun) {
+                        handler.fn();
                     }
                 }
 
@@ -99,7 +106,9 @@ namespace claps {
                     if (sinceWake >= POST_WAKE_CAPTURE_TIMEOUT && sinceClap >= POST_WAKE_CAPTURE_TIMEOUT) {
                         for (let cHandler of this.captureHandlers) {
                             if (cHandler.woken) {
-                                this.onCaptureOver();
+                                if (this.onCaptureOver) {
+                                    this.onCaptureOver();
+                                }
                                 cHandler.fn(this.captureClapCount);
                                 cHandler.reset();
                             }
