@@ -28,6 +28,7 @@ namespace claps {
         private captureClapCount: number;
 
         private onLoudHandler: ()=>void;    // updated by updateOnLoudHandler()
+        private onClapInstance: ()=>void;
 
         private handlers: ClapHandler[];
         private captureHandlers: ClapCaptureHandler[];
@@ -98,6 +99,9 @@ namespace claps {
 
         updateOnLoudHandler() {
             this.onLoudHandler = () => {
+                if (this.onClapInstance) {
+                    this.onClapInstance();
+                }
                 if (this.status === Status.CAPTURING_POST_WAKE) {
                     this.captureClapCount ++;
                     this.lastClapTime = control.millis();
@@ -125,6 +129,10 @@ namespace claps {
             this.updateOnLoudHandler();
         }
 
+        setOnClapInstanceHandler(handler: ()=>void) {
+            this.onClapInstance = handler;
+            this.updateOnLoudHandler();
+        }
     }
 
     class ClapHandler {
@@ -158,8 +166,8 @@ namespace claps {
 
     /* --- BLOCKS --- */
 
-    //% block="on clap"
-    export function onClap(handler: ()=>void) {
+    //% block="on one clap"
+    export function onOnelap(handler: ()=>void) {
         let clapDetector = ClapDetector.getClapDetector();
         clapDetector.setXClapHandler(1, handler);
     }
@@ -177,12 +185,14 @@ namespace claps {
     }
 
     //% block="on $x claps"
+    //% x.min=1 x.max=20
     export function onXClap(x: number, handler: ()=>void) {
         let clapDetector = ClapDetector.getClapDetector();
         clapDetector.setXClapHandler(x, handler);
     }
 
     //% block="on $x claps followed by $count single claps"
+    //% x.min=1 x.max=20
     //% draggableParameters="reporter"
     export function onXClapsCapture(x: number, handler: (count: number)=>void) {
         let clapDetector = ClapDetector.getClapDetector();
@@ -201,6 +211,12 @@ namespace claps {
     export function onTripleClapsCapture(handler: (count: number)=>void) {
         let clapDetector = ClapDetector.getClapDetector();
         clapDetector.setXClapCaptureHandler(3, handler);
+    }
+
+    //% block="on clap instance"
+    export function onClapInstance(handler: ()=>void) {
+        let clapDetector = ClapDetector.getClapDetector();
+        clapDetector.setOnClapInstanceHandler(handler);
     }
 
 }
